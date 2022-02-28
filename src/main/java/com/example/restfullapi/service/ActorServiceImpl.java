@@ -24,7 +24,7 @@ public class ActorServiceImpl implements ActorService{
     }
 
     @Override
-    public Actor save(Actor actorWithoutId) {
-        return actorRepository.save(actorWithoutId);
+    public Optional<Actor> save(Actor actorWithoutId) {
+        return Optional.ofNullable(actorRepository.save(actorWithoutId));
     }
 }

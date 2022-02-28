@@ -11,5 +11,5 @@ public interface ActorService {
 
     List<Actor> getAll();
 
-    Actor save(Actor actorWithoutId);
+    Optional<Actor> save(Actor actorWithoutId);
 }

@@ -6,14 +6,16 @@ import com.example.restfullapi.model.Actor;
 import com.example.restfullapi.service.ActorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/actors")
+@RequestMapping(path = "/actors")
 @RequiredArgsConstructor
 public class ActorController {
 
@@ -31,10 +33,12 @@ public class ActorController {
                 .orElseThrow(() -> new ActorNotFoundException(id));
     }
 
-    @PostMapping ResponseEntity<Actor> createActor(@RequestBody Actor actorWithoutId){
-        return ResponseEntity.ok(actorService.save(actorWithoutId));
-//                .map(a-> new ResponseEntity<>(a, HttpStatus.CREATED))
-//                .orElseThrow(ActorNotCreatedException::new);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Actor> addActor(@RequestBody Actor newActor) {
+        return actorService.save(newActor)
+                .map(a -> new ResponseEntity<>(a, HttpStatus.CREATED))
+                .orElseThrow(ActorNotCreatedException::new);
     }
+
 
 }

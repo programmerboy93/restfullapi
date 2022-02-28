@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface ActorRepository extends JpaRepository<Actor, Long> {
 
     Optional<Actor> findById(Long id);
+
+    Actor save(Actor actor);
 }
 
 
