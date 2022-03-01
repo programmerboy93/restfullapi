@@ -1,6 +1,7 @@
 package com.example.restfullapi.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "movies")
 @Getter
+@ToString
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +31,10 @@ public class Movie {
 
     private BigDecimal budget;
 
-    @JsonBackReference
     @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name="roles")
     private Set<Actor> actors;
 
-    @JsonBackReference
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Director director;
 

@@ -1,15 +1,14 @@
 package com.example.restfullapi.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
+import com.example.restfullapi.util.MovieSetSerializer;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.sun.istack.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "directors")
@@ -20,15 +19,18 @@ public class Director {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String firstName;
 
+    @NotNull
     private String lastName;
 
+    @NotNull
     private LocalDate dateOfBirth;
 
-    @JsonManagedReference
+    @JsonSerialize(using = MovieSetSerializer.class)
     @OneToMany(mappedBy = "director")
-    private List<Movie> movies;
+    private Set<Movie> movies;
 
     public Director(String firstName, String lastName, LocalDate dateOfBirth) {
         this.firstName = firstName;

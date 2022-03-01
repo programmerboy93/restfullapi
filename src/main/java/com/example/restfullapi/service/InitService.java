@@ -45,7 +45,7 @@ public class InitService implements CommandLineRunner {
 
         List<Movie> movies = List.of(
                 new Movie("Titanic", BigDecimal.valueOf(2E8), Set.of(actor, actor1), d1, LocalDate.of(1997, 12, 10)),
-                new Movie("Avatar", BigDecimal.valueOf(237E6), Set.of(actor2, actor3), d1, LocalDate.of(2009, 11, 1))
+                new Movie("Avatar", BigDecimal.valueOf(237E6), Set.of(actor, actor3), d1, LocalDate.of(2009, 11, 1))
         );
 
         actorRepository.saveAll(actors);
