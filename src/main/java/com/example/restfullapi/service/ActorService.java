@@ -15,5 +15,5 @@ public interface ActorService {
 
     void delete(Long id);
 
-    Actor update(Long id, Actor updateActor);
+    Actor update(Long id, String firstName);
 }

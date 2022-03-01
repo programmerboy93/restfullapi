@@ -17,7 +17,7 @@ public class DirectorController {
     private final DirectorService directorService;
 
     @GetMapping
-    public ResponseEntity<List<Director>> getAllActors() {
+    public ResponseEntity<List<Director>> getAllDirectors() {
         return ResponseEntity.ok(directorService.getAllDirectors());
     }
 
@@ -44,7 +44,7 @@ public class DirectorController {
     }
 
     @PatchMapping("/{id}/{firstName}")
-    public ResponseEntity<Director> updateActor(@PathVariable Long id,
+    public ResponseEntity<Director> updateDirectorFirstName(@PathVariable Long id,
                                                 @PathVariable String firstName) {
 
         return new ResponseEntity<>(directorService.updateDirectorFirstName(id, firstName), HttpStatus.OK);

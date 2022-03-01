@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DirectorService {
 
-    Director updateDirector(Long id,Director updateDirector);
+    Director updateDirector(Long id, Director updateDirector);
 
     Director getDirectorById(Long id);
 

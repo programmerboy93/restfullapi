@@ -3,17 +3,14 @@ package com.example.restfullapi.contoller;
 import com.example.restfullapi.exception.ActorNotCreatedException;
 import com.example.restfullapi.exception.ActorNotFoundException;
 import com.example.restfullapi.model.Actor;
-import com.example.restfullapi.repository.ActorRepository;
 import com.example.restfullapi.service.ActorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping(path = "/actors")
@@ -54,10 +51,10 @@ public class ActorController {
         return new ResponseEntity<String>("Resource deleted successfully!.", HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Actor> updateActor(@Valid @RequestBody Actor updateActor,
+    @PatchMapping("/{id}/{firstName}")
+    public ResponseEntity<Actor> updateActor(@Valid @PathVariable String firstName,
                                              @PathVariable Long id) {
 
-        return new ResponseEntity<Actor>(actorService.update(id, updateActor), HttpStatus.OK);
+        return new ResponseEntity<Actor>(actorService.update(id, firstName), HttpStatus.OK);
     }
 }

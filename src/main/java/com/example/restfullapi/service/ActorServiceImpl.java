@@ -31,6 +31,7 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public void delete(Long id) {
+
         actorRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException(id));
 
@@ -38,14 +39,12 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public Actor update(Long id, Actor updateActor) {
+    public Actor update(Long id, String firstName) {
 
         Actor actor = actorRepository.findById(id)
                         .orElseThrow(()-> new ResourceNotFoundException(id));
 
-        actor.setFirstName(updateActor.getFirstName());
-        actor.setLastName(updateActor.getLastName());
-        actor.setDateOfBirth(updateActor.getDateOfBirth());
+        actor.setFirstName(firstName);
 
         return actor;
     }
