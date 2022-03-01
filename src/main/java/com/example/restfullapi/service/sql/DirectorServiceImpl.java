@@ -1,8 +1,9 @@
-package com.example.restfullapi.service;
+package com.example.restfullapi.service.sql;
 
 import com.example.restfullapi.exception.ResourceNotFoundException;
 import com.example.restfullapi.model.Director;
 import com.example.restfullapi.repository.DirectorRepository;
+import com.example.restfullapi.service.DirectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class DirectorServiceImpl implements DirectorService{
+public class DirectorServiceImpl implements DirectorService {
 
     private final DirectorRepository directorRepository;
 

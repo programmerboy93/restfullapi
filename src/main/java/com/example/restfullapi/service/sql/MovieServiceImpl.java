@@ -1,8 +1,9 @@
-package com.example.restfullapi.service;
+package com.example.restfullapi.service.sql;
 
 import com.example.restfullapi.exception.ResourceNotFoundException;
 import com.example.restfullapi.model.Movie;
 import com.example.restfullapi.repository.MovieRepository;
+import com.example.restfullapi.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

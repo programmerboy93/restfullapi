@@ -1,4 +1,4 @@
-package com.example.restfullapi.service;
+package com.example.restfullapi.service.sql;
 
 import com.example.restfullapi.model.Actor;
 import com.example.restfullapi.model.Director;
