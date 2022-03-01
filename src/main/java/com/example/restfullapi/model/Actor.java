@@ -1,6 +1,5 @@
 package com.example.restfullapi.model;
 
-import com.example.restfullapi.util.MovieSerializer;
 import com.example.restfullapi.util.MovieSetSerializer;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

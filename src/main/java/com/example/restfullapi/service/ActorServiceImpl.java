@@ -1,5 +1,6 @@
 package com.example.restfullapi.service;
 
+import com.example.restfullapi.exception.ResourceNotFoundException;
 import com.example.restfullapi.model.Actor;
 import com.example.restfullapi.repository.ActorRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +11,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ActorServiceImpl implements ActorService{
+public class ActorServiceImpl implements ActorService {
     private final ActorRepository actorRepository;
 
     @Override
-    public Optional<Actor> get(Long id){
+    public Optional<Actor> get(Long id) {
         return actorRepository.findById(id);
     }
 
@@ -24,7 +25,28 @@ public class ActorServiceImpl implements ActorService{
     }
 
     @Override
-    public Optional<Actor> save(Actor actorWithoutId) {
-        return Optional.ofNullable(actorRepository.save(actorWithoutId));
+    public Optional<Actor> save(Actor saveActor) {
+        return Optional.ofNullable(actorRepository.save(saveActor));
+    }
+
+    @Override
+    public void delete(Long id) {
+        actorRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException(id));
+
+        actorRepository.deleteById(id);
+    }
+
+    @Override
+    public Actor update(Long id, Actor updateActor) {
+
+        Actor actor = actorRepository.findById(id)
+                        .orElseThrow(()-> new ResourceNotFoundException(id));
+
+        actor.setFirstName(updateActor.getFirstName());
+        actor.setLastName(updateActor.getLastName());
+        actor.setDateOfBirth(updateActor.getDateOfBirth());
+
+        return actor;
     }
 }

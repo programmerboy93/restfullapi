@@ -12,4 +12,8 @@ public interface ActorService {
     List<Actor> getAll();
 
     Optional<Actor> save(Actor actorWithoutId);
+
+    void delete(Long id);
+
+    Actor update(Long id, Actor updateActor);
 }
