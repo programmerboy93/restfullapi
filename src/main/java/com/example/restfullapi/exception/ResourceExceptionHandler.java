@@ -1,16 +1,17 @@
 package com.example.restfullapi.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
-public class ActorExceptionHandler {
+@RestControllerAdvice
+public class ResourceExceptionHandler{
 
-    @ResponseStatus(value = HttpStatus.NOT_FOUND,reason = "Requested Actor Not Found")
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
-    public void actorNotFoundHandler(ResourceNotFoundException ex){
+    public String actorNotFoundHandler(ResourceNotFoundException ex){
+        return ex.getMessage();
     }
 
 }
