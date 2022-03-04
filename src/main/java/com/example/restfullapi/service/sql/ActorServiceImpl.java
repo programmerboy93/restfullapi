@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,37 +15,48 @@ public class ActorServiceImpl implements ActorService {
     private final ActorRepository actorRepository;
 
     @Override
-    public Optional<Actor> get(Long id) {
-        return actorRepository.findById(id);
+    public Actor getActorById(Long id) {
+        return actorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     @Override
-    public List<Actor> getAll() {
+    public List<Actor> getAllActors() {
         return actorRepository.findAll();
     }
 
     @Override
-    public Optional<Actor> save(Actor saveActor) {
-        return Optional.ofNullable(actorRepository.save(saveActor));
+    public Actor saveActor(Actor saveActor) {
+        return actorRepository.save(saveActor);
     }
 
     @Override
     public void delete(Long id) {
-
         actorRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException(id));
 
         actorRepository.deleteById(id);
     }
 
     @Override
     public Actor update(Long id, String firstName) {
-
         Actor actor = actorRepository.findById(id)
-                        .orElseThrow(()-> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException(id));
 
         actor.setFirstName(firstName);
 
-        return actor;
+        return actorRepository.save(actor);
+    }
+
+    @Override
+    public Actor updateActor(Long id, Actor updateActor) {
+        Actor actor = actorRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException(id));
+
+        actor.setDateOfBirth(updateActor.getDateOfBirth());
+        actor.setFirstName(updateActor.getFirstName());
+        actor.setLastName(updateActor.getLastName());
+
+        return actorRepository.save(actor);
     }
 }

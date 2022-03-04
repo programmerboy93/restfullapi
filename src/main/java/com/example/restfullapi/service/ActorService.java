@@ -3,17 +3,18 @@ package com.example.restfullapi.service;
 import com.example.restfullapi.model.Actor;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ActorService {
 
-    Optional<Actor> get(Long id);
+    Actor getActorById(Long id);
 
-    List<Actor> getAll();
+    List<Actor> getAllActors();
 
-    Optional<Actor> save(Actor actorWithoutId);
+    Actor saveActor(Actor actorWithoutId);
 
     void delete(Long id);
 
     Actor update(Long id, String firstName);
+
+    Actor updateActor(Long id, Actor editActor);
 }

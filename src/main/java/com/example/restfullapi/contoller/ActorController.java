@@ -1,7 +1,5 @@
 package com.example.restfullapi.contoller;
 
-import com.example.restfullapi.exception.ActorNotCreatedException;
-import com.example.restfullapi.exception.ActorNotFoundException;
 import com.example.restfullapi.model.Actor;
 import com.example.restfullapi.service.ActorService;
 import lombok.RequiredArgsConstructor;
@@ -21,40 +19,35 @@ public class ActorController {
 
     @GetMapping
     public ResponseEntity<List<Actor>> getAllActors() {
-        return ResponseEntity.ok(actorService.getAll());
+        return ResponseEntity.ok(actorService.getAllActors());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Actor> getActor(@PathVariable Long id) {
-        return actorService.get(id)
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> new ActorNotFoundException(id));
+        return new ResponseEntity<>(actorService.getActorById(id), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Actor> addActor(@RequestBody Actor newActor) {
-        return actorService.save(newActor)
-                .map(a -> new ResponseEntity<>(a, HttpStatus.CREATED))
-                .orElseThrow(ActorNotCreatedException::new);
+        return new ResponseEntity<>(actorService.saveActor(newActor), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Actor> updateActor(@RequestBody Actor editActor) {
-        return actorService.save(editActor)
-                .map(a -> new ResponseEntity<>(a, HttpStatus.OK))
-                .orElseThrow(ActorNotCreatedException::new);
+    public ResponseEntity<Actor> updateActor(@PathVariable Long id,
+                                             @RequestBody Actor editActor) {
+        return new ResponseEntity<>(actorService.updateActor(id,editActor),HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteActor(@PathVariable Long id) {
         actorService.delete(id);
-        return new ResponseEntity<String>("Resource deleted successfully!.", HttpStatus.OK);
+        return new ResponseEntity<>("Resource deleted successfully!.", HttpStatus.OK);
     }
 
     @PatchMapping("/{id}/{firstName}")
     public ResponseEntity<Actor> updateActor(@Valid @PathVariable String firstName,
                                              @PathVariable Long id) {
 
-        return new ResponseEntity<Actor>(actorService.update(id, firstName), HttpStatus.OK);
+        return new ResponseEntity<>(actorService.update(id, firstName), HttpStatus.OK);
     }
 }
