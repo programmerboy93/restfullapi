@@ -8,15 +8,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ActorExceptionHandler {
 
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND,reason = "Requested Actor Not Found")
     @ExceptionHandler(ResourceNotFoundException.class)
-    public void resourceNotFoundHandler(ResourceNotFoundException ex){
+    public void actorNotFoundHandler(ResourceNotFoundException ex){
     }
-
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST,reason = "Received Invalid Input Parameters")
-    @ExceptionHandler(ActorNotCreatedException.class)
-    public void actorNotCreatedHandler(ActorNotCreatedException ex){
-    }
-
 
 }
