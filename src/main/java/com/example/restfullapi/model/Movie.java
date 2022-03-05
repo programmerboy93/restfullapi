@@ -1,11 +1,9 @@
 package com.example.restfullapi.model;
 
-import com.example.restfullapi.util.ActorSetSerializer;
-import com.example.restfullapi.util.DirectorSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -16,6 +14,8 @@ import java.util.Set;
 @Table(name = "movies")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,28 +25,18 @@ public class Movie {
 
     private BigDecimal budget;
 
-    @DateTimeFormat(pattern = "YYYY-MM-DD")
     private LocalDate dateOFPremiere;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "roles")
-    @JsonSerialize(using = ActorSetSerializer.class)
-    private Set<Actor> actors;
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "movie")
+    private Set<Role> roles;
 
-    @JsonSerialize(using = DirectorSerializer.class)
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Director director;
 
-
-
-    public Movie(String title, BigDecimal budget, Set<Actor> actors, Director director, LocalDate dateOFPremiere) {
+    public Movie(String title, BigDecimal budget, LocalDate dateOFPremiere, Director director) {
         this.title = title;
         this.budget = budget;
-        this.actors = actors;
-        this.director = director;
         this.dateOFPremiere = dateOFPremiere;
-    }
-
-    public Movie() {
+        this.director = director;
     }
 }

@@ -1,13 +1,10 @@
 package com.example.restfullapi.model;
 
-import com.example.restfullapi.util.MovieSetSerializer;
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -15,34 +12,25 @@ import java.util.Set;
 @Table(name = "actors")
 @Getter
 @Setter
-public class Actor {
+@NoArgsConstructor
+public class Actor{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private String firstName;
 
-    @NotNull
     private String lastName;
 
-    @NotNull
     private LocalDate dateOfBirth;
 
-    @JsonSerialize(using = MovieSetSerializer.class)
-    @ManyToMany(mappedBy = "actors")
-    private Set<Movie> movies;
+    @OneToMany(mappedBy = "actor")
+    private Set<Role> roles;
 
-    public Actor(
-            @JsonProperty("firstName") String firstName,
-            @JsonProperty("lastName") String lastName,
-            @JsonProperty("dateOfBirth") LocalDate dateOfBirth) {
+    public Actor(String firstName, String lastName, LocalDate dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
-    }
-
-    public Actor() {
     }
 }
