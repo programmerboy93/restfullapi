@@ -1,7 +1,5 @@
 package com.example.restfullapi.dto;
 
-import com.example.restfullapi.model.Actor;
-import com.example.restfullapi.model.Director;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,8 +21,8 @@ public class MovieDto extends RepresentationModel<MovieDto> {
     private LocalDate dateOFPremiere;
 
     @JsonIgnoreProperties(value = "moviesDto")
-    private Set<Actor> actors;
+    private Set<ActorDto> actors;
 
     @JsonIgnoreProperties(value = "moviesDto")
-    private Director director;
+    private DirectorDto directorDto;
 }

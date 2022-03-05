@@ -3,12 +3,16 @@ package com.example.restfullapi.contoller;
 import com.example.restfullapi.model.Actor;
 import com.example.restfullapi.service.ActorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(path = "/actors")
@@ -19,6 +23,14 @@ public class ActorController {
 
     @GetMapping
     public ResponseEntity<List<Actor>> getAllActors() {
+        List<Actor> actors = actorService.getAllActors();
+//        for (Actor actor : actors) {
+//            Link selfLink = linkTo(methodOn(ActorController.class).getActor(actor.getId())).withSelfRel();
+//            actor.add(selfLink);
+//        }
+
+        Link link =  linkTo(methodOn(ActorController.class).getAllActors()).withSelfRel();
+
         return ResponseEntity.ok(actorService.getAllActors());
     }
 
@@ -35,7 +47,7 @@ public class ActorController {
     @PutMapping
     public ResponseEntity<Actor> updateActor(@PathVariable Long id,
                                              @RequestBody Actor editActor) {
-        return new ResponseEntity<>(actorService.updateActor(id,editActor),HttpStatus.OK);
+        return new ResponseEntity<>(actorService.updateActor(id, editActor), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
