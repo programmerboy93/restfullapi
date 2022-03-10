@@ -1,7 +1,10 @@
 package com.example.restfullapi.service.sql;
 
+import com.example.restfullapi.model.dto.MovieDto;
+import com.example.restfullapi.model.dto.MovieWithoutActorDto;
 import com.example.restfullapi.exception.ResourceNotFoundException;
-import com.example.restfullapi.model.Movie;
+import com.example.restfullapi.mapper.MovieMapper;
+import com.example.restfullapi.model.entity.Movie;
 import com.example.restfullapi.repository.MovieRepository;
 import com.example.restfullapi.service.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -14,15 +17,17 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
+    private final MovieMapper movieMapper;
 
     @Override
-    public List<Movie> getAllMovies() {
-        return movieRepository.findAll();
+    public List<MovieWithoutActorDto> getAllMovies() {
+        return movieMapper.mapToMovieList(movieRepository.findAll());
     }
 
     @Override
-    public Movie getMovieById(Long id) {
+    public MovieDto getMovieById(Long id) {
         return movieRepository.findById(id)
+                .map(movieMapper::mapToMovieDto)
                 .orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
@@ -38,7 +43,7 @@ public class MovieServiceImpl implements MovieService {
 
         movie.setBudget(updateMovie.getBudget());
         movie.setTitle(updateMovie.getTitle());
-        movie.setDateOFPremiere(updateMovie.getDateOFPremiere());
+        movie.setPremiereDate(updateMovie.getPremiereDate());
         movie.setDirector(updateMovie.getDirector());
 
         return movieRepository.save(movie);

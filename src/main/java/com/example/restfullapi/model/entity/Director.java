@@ -1,17 +1,15 @@
-package com.example.restfullapi.model;
+package com.example.restfullapi.model.entity;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "directors")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class Director {
 
@@ -23,14 +21,15 @@ public class Director {
 
     private String lastName;
 
-    private LocalDate dateOfBirth;
+    private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "director")
-    private Set<Movie> movies;
+    @OneToMany
+    @JoinColumn(name="director_id")
+    private List<Movie> movies;
 
-    public Director(String firstName, String lastName, LocalDate dateOfBirth) {
+    public Director(String firstName, String lastName, LocalDate birthDate) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
+        this.birthDate = birthDate;
     }
 }

@@ -1,13 +1,15 @@
 package com.example.restfullapi.service;
 
-import com.example.restfullapi.model.Movie;
+import com.example.restfullapi.model.dto.MovieDto;
+import com.example.restfullapi.model.dto.MovieWithoutActorDto;
+import com.example.restfullapi.model.entity.Movie;
 
 import java.util.List;
 
 public interface MovieService {
-    List<Movie> getAllMovies();
+    List<MovieWithoutActorDto> getAllMovies();
 
-    Movie getMovieById(Long id);
+    MovieDto getMovieById(Long id);
 
     Movie saveMovie(Movie newMovie);
 

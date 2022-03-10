@@ -1,20 +1,20 @@
-package com.example.restfullapi.dto;
+package com.example.restfullapi.model.dto;
 
 
-import com.example.restfullapi.model.Movie;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@Relation(itemRelation = "director",collectionRelation = "directors")
 public class DirectorDto extends RepresentationModel<DirectorDto> {
+
+    private Long id;
 
     private String firstName;
 
@@ -22,6 +22,5 @@ public class DirectorDto extends RepresentationModel<DirectorDto> {
 
     private LocalDate dateOfBirth;
 
-    @JsonIgnoreProperties(value = {"directorDto", "movieDto"})
-    private Set<Movie> movies;
+    private List<MovieWithoutActorDto> movies;
 }

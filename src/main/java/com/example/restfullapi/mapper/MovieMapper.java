@@ -1,13 +1,18 @@
 package com.example.restfullapi.mapper;
 
-import lombok.RequiredArgsConstructor;
+import com.example.restfullapi.model.dto.MovieDto;
+import com.example.restfullapi.model.dto.MovieWithoutActorDto;
+import com.example.restfullapi.model.entity.Movie;
+import org.mapstruct.Mapper;
 
-@RequiredArgsConstructor
-public class MovieMapper {
+import java.util.List;
 
+@Mapper(uses = {ActorMapper.class, DirectorMapper.class}, componentModel = "spring")
+public interface MovieMapper {
 
+    MovieDto mapToMovieDto(Movie movie);
 
-
+    List<MovieWithoutActorDto> mapToMovieList(List<Movie> movies);
 
 
 }

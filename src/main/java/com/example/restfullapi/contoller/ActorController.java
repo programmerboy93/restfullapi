@@ -1,8 +1,12 @@
 package com.example.restfullapi.contoller;
 
-import com.example.restfullapi.model.Actor;
+import com.example.restfullapi.model.dto.ActorDto;
+import com.example.restfullapi.model.dto.ActorWithoutMoviesDto;
+import com.example.restfullapi.model.dto.MovieWithoutActorDto;
+import com.example.restfullapi.model.entity.Actor;
 import com.example.restfullapi.service.ActorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -22,21 +27,25 @@ public class ActorController {
     private final ActorService actorService;
 
     @GetMapping
-    public ResponseEntity<List<Actor>> getAllActors() {
-        List<Actor> actors = actorService.getAllActors();
-//        for (Actor actor : actors) {
-//            Link selfLink = linkTo(methodOn(ActorController.class).getActor(actor.getId())).withSelfRel();
-//            actor.add(selfLink);
-//        }
+    public ResponseEntity<CollectionModel<ActorWithoutMoviesDto>> getAllActors() {
+        List<ActorWithoutMoviesDto> actors = actorService.getAllActors().stream()
+                .map(a -> a.add(linkTo(methodOn(ActorController.class).getActor(a.getId())).withRel("actorMovies")))
+                .collect(Collectors.toList());
 
-        Link link =  linkTo(methodOn(ActorController.class).getAllActors()).withSelfRel();
-
-        return ResponseEntity.ok(actorService.getAllActors());
+        Link link = linkTo(methodOn(ActorController.class).getAllActors()).withSelfRel();
+        return ResponseEntity.ok(new CollectionModel<>(actors, link));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Actor> getActor(@PathVariable Long id) {
-        return new ResponseEntity<>(actorService.getActorById(id), HttpStatus.OK);
+    public ResponseEntity<ActorDto> getActor(@PathVariable Long id) {
+        ActorDto actor = actorService.getActorById(id);
+        actor.add(linkTo(methodOn(ActorController.class).getActor(actor.getId())).withSelfRel());
+        actor.add(linkTo(methodOn(ActorController.class).getAllActors()).withRel("actors"));
+        for (MovieWithoutActorDto movie : actor.getMovies()) {
+            movie.add(linkTo(methodOn(MovieController.class).getMovie(movie.getId())).withRel("movie"));
+        }
+
+        return new ResponseEntity<>(actor, HttpStatus.OK);
     }
 
     @PostMapping
